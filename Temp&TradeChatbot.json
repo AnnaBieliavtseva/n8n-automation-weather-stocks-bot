@@ -1,0 +1,1573 @@
+{
+  "name": "Temp&Trade Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": "={{ [\"message\"] }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        -224
+      ],
+      "id": "f32443ec-7814-4ef5-9676-78e8f4b1206d",
+      "name": "Telegram Trigger",
+      "webhookId": "3b1ee17b-4251-4fdc-a770-214f2a4bd5b9",
+      "credentials": {
+        "telegramApi": {
+          "id": "rNPwcx7c3FFhrqLT",
+          "name": "TempTradeBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        352
+      ],
+      "id": "6a734468-227b-4af7-913c-e99dc55b9e46",
+      "name": "Cron Daily"
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "tickers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=0"
+        },
+        "keepFirstRow": true
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        64,
+        128
+      ],
+      "id": "3d6fe31f-e464-4db2-8263-3719c676a458",
+      "name": "Clear tickers",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1429053662,
+          "mode": "list",
+          "cachedResultName": "meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=1429053662"
+        },
+        "keepFirstRow": true
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        80,
+        560
+      ],
+      "id": "29848447-99ba-4708-a583-e8b99a962947",
+      "name": "Clear meta",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1103269265,
+          "mode": "list",
+          "cachedResultName": "set",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=1103269265"
+        },
+        "keepFirstRow": true
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        112,
+        352
+      ],
+      "id": "57e45a76-deb0-4a11-a110-772045c05077",
+      "name": "Clear set",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ \n  \"Hello! 👋 I can tell you the weather in any city and show current NASDAQ stock prices.\"\n  + \"\\n📍 Weather: send a city name — e.g., Kyiv\"\n  + \"\\n💹 Stocks: send a company name or ticker — e.g., Tesla or AAPL. Try it now!\" \n}}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        -352
+      ],
+      "id": "6b5be6b3-52b7-4813-b0af-4274d8cde718",
+      "name": "Send Welcome Message",
+      "webhookId": "60a173b6-a366-41d5-97e9-1b422957aa8d",
+      "credentials": {
+        "telegramApi": {
+          "id": "rNPwcx7c3FFhrqLT",
+          "name": "TempTradeBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b1f12f81-31dd-46e7-b0bb-ecd5451d43be",
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        -224
+      ],
+      "id": "ba573331-b037-48cd-8adb-153d9e895db1",
+      "name": "If greeting / start"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = ($input.first().json.message.text || '').trim();\nconst text = raw.replace(/\\s+/g, ' ');\nconst upper = text.toUpperCase();\n\n\nreturn [{\n  raw, text, upper, \n  chatId: $input.first().json.message.chat.id || '',\n  userId: $input.first().json.message?.from?.id || ''\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -320,
+        -144
+      ],
+      "id": "ef7ec193-f493-4981-b300-534cf9cba090",
+      "name": "Normalize Input"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9a621c8e-0b7b-4dc3-857a-234fa79d8b57",
+              "name": "upper",
+              "value": "={{ $('Normalize Input').item.json.upper }}",
+              "type": "string"
+            },
+            {
+              "id": "f13518c4-c241-4be2-bac9-ba7bbf368e29",
+              "name": "message.chat.id",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "number"
+            },
+            {
+              "id": "bce2d118-1581-494f-8b3d-4e1429707aca",
+              "name": "message.from.id",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        -144
+      ],
+      "id": "c3a1d1b2-61ea-46b1-aeac-544e01c291ea",
+      "name": "Prepare Query for Search"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1103269265,
+          "mode": "list",
+          "cachedResultName": "set",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=1103269265"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "symbol",
+              "lookupValue": "={{ $json.upper }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        48,
+        -64
+      ],
+      "id": "1122b532-8660-47b4-905d-fbe3d73afd61",
+      "name": "Find Company in NASDAQ",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        192,
+        -208
+      ],
+      "id": "012d8caf-0e2d-4a82-96d9-93b90738b1b3",
+      "name": "Merge Input with Company Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c7ba1124-e755-4336-b747-b4939696faed",
+              "leftValue": "={{ $json.symbol }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -208
+      ],
+      "id": "9b264d2d-1a1a-47b0-bdc2-53f435d8d726",
+      "name": "If Company Found",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "tickers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        576,
+        -112
+      ],
+      "id": "3b6c55cf-5d97-41c6-bcb4-25ecf0ba383e",
+      "name": "Get Companies Name",
+      "alwaysOutputData": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const q = $('Merge Input with Company Data').first().json.upper\nconst rows = $input.all();    \nconst stopWords = [\n  'ATLANTA',\n'CHICAGO',\n'MALIBU',\n'NEW YORK',\n'PHOENIX',\n'TOKYO',\n];\nif (stopWords.includes(q)) {\n  return [];\n}\n\nfor (const i of rows) {\n  const name = String(i.json.name || '').toUpperCase();\n  if (name.startsWith(q)) {\n    return [i];                       \n  }\n}\n\nreturn []; "
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        -112
+      ],
+      "id": "c38a21a5-810b-4b21-a77f-43d572813979",
+      "name": "Find company",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "https://finnhub.io/api/v1/quote",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "symbol",
+              "value": "={{ $json.symbol }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        -352
+      ],
+      "id": "9a295e37-0a0e-4e38-a29a-1def6231c137",
+      "name": "Get Stock Price",
+      "retryOnFail": false,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "ak47DdHbsOIKbbt1",
+          "name": "Query Auth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e6489f-4919-48cb-a1e8-1b32a74c9577",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('Merge Input with Company Data').item.json.upper }}",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        -288
+      ],
+      "id": "1f2fd411-44bb-48d7-97d7-7cf7f19b3169",
+      "name": "If Company Found2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "url": "https://api.weatherapi.com/v1/current.json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $('If Company Found').item.json.upper }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        -32
+      ],
+      "id": "8a8851dc-137b-4925-864a-7b32d93ec7c6",
+      "name": "Get Weather",
+      "retryOnFail": false,
+      "maxTries": 2,
+      "waitBetweenTries": 800,
+      "alwaysOutputData": false,
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "3YFcRIL8IHo7J0rL",
+          "name": "Weather"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userQuery = $('Telegram Trigger').first().json.message.text.trim().toUpperCase();\n\nif (!$input.first().json.location || !$input.first().json.location.name) {\n  return [{\n    text: \"Sorry, I couldn't find the weather for this location. Please try another city.\",\n    found: false\n  }];\n}\n\nconst apiCity = $input.first().json.location.name.trim().toUpperCase();\n\nif (apiCity !== userQuery) {\n  return [{\n    text: `Sorry, I couldn't find the weather exactly for \"${userQuery}\". Did you mean \"${$input.first().json.location.name}\"?`,\n    found: false\n  }];\n}\n\nconst temp = $input.first().json.current?.temp_c;\nlet message = \"\";\nconst coldIcon = '🧥❄️';\nconst warmIcon = '☀️👕';\n\nif (temp < 15) {\n  message = `${coldIcon} Today in ${$input.first().json.location.name} the temperature is ${temp}°C, it's cold, wear a jacket.`;\n} else {\n  message = `${warmIcon} Today in ${$input.first().json.location.name} it is ${temp}°C, it's a great day, you can run in a T-shirt.`;\n}\n\nmessage += `\\n\\n📌 If you want to know the weather or stock prices, just send me a city name or company name.`;\n\nreturn [{\n  city: $input.first().json.location.name,\n  temperature: temp,\n  text: message,\n  found: true\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        -48
+      ],
+      "id": "081564d7-ba7f-442b-9f2a-0ad1d566243f",
+      "name": "Format Weather Message"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "45fa9c7b-071d-4918-b407-46f50ca3e166",
+              "leftValue": "={{ $json.c }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        -448
+      ],
+      "id": "ab3ea2c9-67da-4356-a3c3-39dc938cc179",
+      "name": "If response successed",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Merge Input with Company Data').item.json.message.chat.id }}",
+        "text": "={{ \"📈 *\" + $('If Company Found').item.json.upper + \"*\\n\" +\n\"💵 Price: $\" + $json.c + \"\\n\" +\n\n\"🔼 High: $\" + $json.h + \"\\n\" +\n\"🔽 Low: $\" + $json.l + \"\\n\" +\n\"🕒 Open: $\" + $json.o + \"\\n\" +\n\"📅 Previous close: $\" + $json.pc + \"\\n\" + \"📌 If you want to know the weather or stock prices, just send me a city name or company name.\"\n}}\n",
+        "replyMarkup": "=none",
+        "forceReply": {},
+        "replyKeyboardOptions": {},
+        "replyKeyboardRemove": {},
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -576
+      ],
+      "id": "bca9c1f2-5528-4b20-bc6d-33b0e508b4d7",
+      "name": "Send a success message",
+      "webhookId": "18215fb5-66b2-441c-928c-404c80bc0e24",
+      "credentials": {
+        "telegramApi": {
+          "id": "rNPwcx7c3FFhrqLT",
+          "name": "TempTradeBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Sorry — I couldn’t fetch the price right now. Please try again in a minute or send another ticker (e.g., AAPL).",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -384
+      ],
+      "id": "c12cae75-5cc5-4062-8abb-e5a82bb2bd06",
+      "name": "Send an error message",
+      "webhookId": "d88dbd6d-f638-4a76-9cd8-944df63869fa",
+      "credentials": {
+        "telegramApi": {
+          "id": "rNPwcx7c3FFhrqLT",
+          "name": "TempTradeBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17931358-fc33-4901-86fc-5897b1ffaf35",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "6512e2eb-00c1-49aa-8d81-7cb4ff5da91e",
+              "name": "chatId",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "af1f4d43-c73b-4d4f-94d4-6f733055b0b5",
+              "name": "userId",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "ff6aaeef-6f07-4e7f-ba62-c98fb3a89176",
+              "name": "intent      ",
+              "value": "stock",
+              "type": "string"
+            },
+            {
+              "id": "82d11ddf-f6d1-431d-82ac-60feef9db1a1",
+              "name": "status",
+              "value": "success",
+              "type": "string"
+            },
+            {
+              "id": "e2fe591b-b349-4465-8827-d6f372e15d18",
+              "name": "message",
+              "value": "={{ $json.result.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        -528
+      ],
+      "id": "2e864ab3-11c3-434f-8de5-bc3fcb8b85b3",
+      "name": "Prepare Stock Log"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17931358-fc33-4901-86fc-5897b1ffaf35",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "6512e2eb-00c1-49aa-8d81-7cb4ff5da91e",
+              "name": "chatId",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "af1f4d43-c73b-4d4f-94d4-6f733055b0b5",
+              "name": "userId",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "ff6aaeef-6f07-4e7f-ba62-c98fb3a89176",
+              "name": "intent      ",
+              "value": "stock",
+              "type": "string"
+            },
+            {
+              "id": "82d11ddf-f6d1-431d-82ac-60feef9db1a1",
+              "name": "status",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "e2fe591b-b349-4465-8827-d6f372e15d18",
+              "name": "message",
+              "value": "={{ $json.result.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        -336
+      ],
+      "id": "266bb390-f16e-42db-a89b-b958f435c0d0",
+      "name": "Prepare Stock Error Log"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17931358-fc33-4901-86fc-5897b1ffaf35",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "6512e2eb-00c1-49aa-8d81-7cb4ff5da91e",
+              "name": "chatId",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "af1f4d43-c73b-4d4f-94d4-6f733055b0b5",
+              "name": "userId",
+              "value": "={{ $('Telegram Trigger').item.json.message.from.id }}",
+              "type": "string"
+            },
+            {
+              "id": "ff6aaeef-6f07-4e7f-ba62-c98fb3a89176",
+              "name": "intent      ",
+              "value": "weather",
+              "type": "string"
+            },
+            {
+              "id": "82d11ddf-f6d1-431d-82ac-60feef9db1a1",
+              "name": "status",
+              "value": "={{ $('Format Weather Message').item.json.found === false ? 'error' : 'success'}}",
+              "type": "string"
+            },
+            {
+              "id": "e2fe591b-b349-4465-8827-d6f372e15d18",
+              "name": "message",
+              "value": "={{ $json.result.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1648,
+        -192
+      ],
+      "id": "184711ba-27f3-4db3-9abd-1345dabdbf33",
+      "name": "Prepare Weather Log"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        -48
+      ],
+      "id": "0c119eec-28bd-426c-88bb-67beb07e4172",
+      "name": "Send a text message",
+      "webhookId": "af8e0391-39e9-4094-b549-c96331b78798",
+      "credentials": {
+        "telegramApi": {
+          "id": "rNPwcx7c3FFhrqLT",
+          "name": "TempTradeBot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1htYZzX6S2nAk6KfLjYr1noYkpPx1dbh16iHQEuCzuNI",
+          "mode": "list",
+          "cachedResultName": "Bot Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1htYZzX6S2nAk6KfLjYr1noYkpPx1dbh16iHQEuCzuNI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1htYZzX6S2nAk6KfLjYr1noYkpPx1dbh16iHQEuCzuNI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp ": "={{ $json.timestamp }}",
+            "chatId ": "={{ $json.chatId }}",
+            " userId ": "={{ $json.userId }}",
+            "input": "={{ $('Telegram Trigger').item.json.message.text }}",
+            " intent": "={{ $json['intent      '] }}",
+            "message": "={{ $json.message }}",
+            "status": "={{ $json.status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp ",
+              "displayName": "timestamp ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "chatId ",
+              "displayName": "chatId ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " userId ",
+              "displayName": " userId ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "input",
+              "displayName": "input",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " intent",
+              "displayName": " intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1792,
+        -352
+      ],
+      "id": "cce94386-f952-4519-88d0-4e92621e64a9",
+      "name": "Append to Google Sheet (Logs)",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://finnhub.io/api/v1/stock/symbol",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "exchange",
+              "value": "US"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -432,
+        352
+      ],
+      "id": "9451d50d-9715-40be-ab69-d624df400fb4",
+      "name": "Fetch NASDAQ Symbols (API)",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "t6iqZfeYRNbGdmPA",
+          "name": "Bearer Auth account 2"
+        },
+        "httpQueryAuth": {
+          "id": "ak47DdHbsOIKbbt1",
+          "name": "Query Auth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = $input.all().map(i => i.json);\nconst nasdaq = rows.filter(r => String(r.mic || '').toUpperCase() === 'XNAS');\n\nconst seen = new Set();\nconst list = [];\nfor (const r of nasdaq) {\n  const sym = String(r.symbol || '').toUpperCase().trim();\n  const name = String(r.description || '').trim();\n  if (!sym || seen.has(sym)) continue;\n  seen.add(sym);\n  list.push({ symbol: sym, name });\n}\n\nconst tickerSet = Array.from(seen);\n\nreturn [{\n  tickers: list, \n  tickerSet,     \n  meta: { updatedAt: new Date().toISOString(), count: list.length }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -208,
+        352
+      ],
+      "id": "26e42e13-399d-4c64-8f80-b0c7a3e76620",
+      "name": "Transform API Data"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tickers",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        288,
+        192
+      ],
+      "id": "32a88b65-d9d3-4c15-9b74-329a7e832038",
+      "name": "Split tickers"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tickerSet",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        304,
+        496
+      ],
+      "id": "216f280b-a9bc-4762-9864-6d118e6ae772",
+      "name": "Split set"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1429053662,
+          "mode": "list",
+          "cachedResultName": "meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=1429053662"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "count": "={{ $json.meta.count }}",
+            "updatedAt": "={{ $json.meta.updatedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "updatedAt",
+              "displayName": "updatedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "count",
+              "displayName": "count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        80,
+        736
+      ],
+      "id": "fe2cc427-70bf-470e-bccb-9c072c25a13e",
+      "name": "Append meta",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1103269265,
+          "mode": "list",
+          "cachedResultName": "set",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=1103269265"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "symbol": "={{ $json.tickerSet }}"
+          },
+          "matchingColumns": [
+            "symbol"
+          ],
+          "schema": [
+            {
+              "id": "symbol",
+              "displayName": "symbol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        528,
+        480
+      ],
+      "id": "9794b22a-98b2-4365-be63-9ebe98b3dd73",
+      "name": "Append set",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8",
+          "mode": "list",
+          "cachedResultName": "NASDAQ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "tickers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/194exZvHSiJDh62ru8LfvolGjWPWiq-Npobrf-q6OVh8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "symbol": "={{ $json.symbol }}",
+            "name": "={{ $json.name }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "symbol",
+              "displayName": "symbol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "tickers",
+              "displayName": "tickers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "tickerSet",
+              "displayName": "tickerSet",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "meta",
+              "displayName": "meta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        496,
+        192
+      ],
+      "id": "fb939019-1efe-42dc-bdbf-dd2376867a12",
+      "name": "Append tickers",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "sKZO8zvA1BEjcyzO",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If greeting / start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron Daily": {
+      "main": [
+        [
+          {
+            "node": "Fetch NASDAQ Symbols (API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear tickers": {
+      "main": [
+        []
+      ]
+    },
+    "Clear set": {
+      "main": [
+        []
+      ]
+    },
+    "Send Welcome Message": {
+      "main": [
+        []
+      ]
+    },
+    "If greeting / start": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Input": {
+      "main": [
+        [
+          {
+            "node": "Prepare Query for Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Query for Search": {
+      "main": [
+        [
+          {
+            "node": "Find Company in NASDAQ",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge Input with Company Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Company in NASDAQ": {
+      "main": [
+        [
+          {
+            "node": "Merge Input with Company Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Input with Company Data": {
+      "main": [
+        [
+          {
+            "node": "If Company Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Company Found": {
+      "main": [
+        [
+          {
+            "node": "Get Stock Price",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Companies Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Companies Name": {
+      "main": [
+        [
+          {
+            "node": "Find company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find company": {
+      "main": [
+        [
+          {
+            "node": "If Company Found2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Stock Price": {
+      "main": [
+        [
+          {
+            "node": "If response successed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Company Found2": {
+      "main": [
+        [
+          {
+            "node": "Get Stock Price",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Weather": {
+      "main": [
+        [
+          {
+            "node": "Format Weather Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Weather Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Weather Message": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If response successed": {
+      "main": [
+        [
+          {
+            "node": "Send a success message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send an error message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a success message": {
+      "main": [
+        [
+          {
+            "node": "Prepare Stock Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an error message": {
+      "main": [
+        [
+          {
+            "node": "Prepare Stock Error Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Stock Log": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheet (Logs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Stock Error Log": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheet (Logs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Weather Log": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheet (Logs)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        [
+          {
+            "node": "Prepare Weather Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch NASDAQ Symbols (API)": {
+      "main": [
+        [
+          {
+            "node": "Transform API Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform API Data": {
+      "main": [
+        [
+          {
+            "node": "Split tickers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Clear tickers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Clear meta",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split set",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append meta",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Clear set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split tickers": {
+      "main": [
+        [
+          {
+            "node": "Append tickers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split set": {
+      "main": [
+        [
+          {
+            "node": "Append set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append meta": {
+      "main": [
+        []
+      ]
+    },
+    "Append set": {
+      "main": [
+        []
+      ]
+    },
+    "Append tickers": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "74b1149c-fa80-44f2-a479-a6f92c2c1b97",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "21965f447f53ed6c2ea1dbdf1105a5f6d0106eaf04235a07a57b4bd7f2ad871f"
+  },
+  "id": "rmc3nDfaZxEQk0W2",
+  "tags": []
+}
